@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Registrer</title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+	</head>
+	<body>
+		<div class="registrer">
+			<h1>Registrer</h1>
+			<div class="links">
+				<a href="{{ url_for('login') }}">Login</a>
+				<a href="{{ url_for('registrer') }}" class="active">Registrer</a>
+			</div>
+			<form action="{{ url_for('registrer') }}" method="post" autocomplete="off" enctype="multipart/form-data">
+				
+				<label for="username">
+					<i class="fas fa-user"></i>
+				</label>
+				<input type="text" name="username" placeholder="Username" id="username" required>
+				
+				<label for="password">
+					<i class="fas fa-lock"></i>
+				</label>
+				<input type="password" name="password" placeholder="Password" id="password" required>
+				
+				<label for="email">
+					<i class="fas fa-envelope"></i>
+				</label>
+				<input type="email" name="email" placeholder="Email" id="email" required>
+
+
+				<label for = name>
+					<i class="fas fa-file-signature"></i>
+				</label> <br>	
+				<input type="name" name="name" placeholder="name" id="name" required>
+
+				
+				<label for="beskrivelse">
+					<i class="fas fa-address-card"></i>
+				</label><br>
+				<input type="beskrivelse" name="beskrivelse" placeholder="beskrivelse" id="beskrivelse" required>
+				
+
+				<label for="ledige"> 
+					<i class="fas fa-file"></i>
+				</label><br>
+				<input type="radio" id="type" name="type"  value="ledige"> <br>
+				
+
+				<label for="virksomhed">
+					<i class="fas fa-building"></i>
+				</label> <br>	
+				<input type="radio" id ="type" name="type"  value="virksomhed"> <br>
+
+
+				<div class="msg">{{ msg }}</div>
+				<input type="file" name="cv"> <br>
+				<input type="submit" value="Opret">
+			</form>
+		</div>
+	</body>
+</html>
