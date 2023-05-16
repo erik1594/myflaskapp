@@ -129,13 +129,12 @@ def registrer():
             cursor.execute('INSERT INTO ledige (name, email, beskrivelse, cv, user_id) VALUES (%s, %s, %s, %s, %s)', (name, email, beskrivelse, cv.filename, user_id))
             mysql.connection.commit()
             msg = 'Tillykke du har oprettet en profil'
-            return 
+            return render_template ('registrer.html', msg=msg)
     elif request.method == 'POST':
         # Form is empty... (no POST data)
         msg = 'Please fill out the form!'
     
     # Show registration form with message (if any)
-        return redirect(url_for('login'))
     return render_template('registrer.html', msg=msg)
 
 
@@ -145,13 +144,14 @@ def home():
     # Check if user is loggedin
     if 'loggedin' in session:
         # User is loggedin show them the home page
+        
         img = os.path.join(app.config['UPLOAD_FOLDER'], '1691809.jpg')
         return render_template('home.html', username=session['username'], user_image = img)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 
 # http://localhost:5000/pythinlogin/profile - this will be the profile page, only accessible for loggedin users
-@app.route('/pythonlogin/profile')
+@app.route('/profile')
 def profile():
     # Check if user is loggedin
     if 'loggedin' in session:
