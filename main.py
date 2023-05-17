@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
-import MySQLdb
 import re
 import os
 
@@ -26,16 +25,6 @@ app.config['UPLOAD_FOLDER2'] = cv_mappe
 ALLOWED_EXTENSIONS = {'pdf', 'doc', 'docx'}  # Tilladte filtyper
 
 
-@app.route('/search', methods=['GET', 'POST'])
-def search():
-    if request.method == "POST":
-        cursor = mysql.connection.cursor()
-        search_query = '%' + request.form['search'] + '%'
-        cursor.execute('SELECT * FROM users WHERE username LIKE %s', (search_query,))
-        records = cursor.fetchall()
-        cursor.close()
-        return render_template("result.html", records=records)
-    return render_template("search.html")
 
             
             
@@ -128,7 +117,7 @@ def registrer():
         
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM users WHERE username = %s', (username))
+        cursor.execute('SELECT * FROM users WHERE username =%s', (username,))
         account = cursor.fetchone()
         
     
@@ -144,9 +133,9 @@ def registrer():
             msg = 'Please fill out the form!'
         else:
             # Account doesn't exist and the form data is valid, now insert new account into accounts table
-            cursor.execute('INSERT INTO users VALUES (NULL, %s, %s, %s, %s)', (username, password, email, type))
+            cursor.execute('INSERT INTO users VALUES (NULL, %s, %s, %s, %s)', (username, password, email, type,))
             user_id = cursor.lastrowid
-            cursor.execute('INSERT INTO ledige (name, email, beskrivelse, cv, user_id) VALUES (%s, %s, %s, %s, %s)', (name, email, beskrivelse, cv.filename, user_id))
+            cursor.execute('INSERT INTO ledige (name, email, beskrivelse, cv, user_id) VALUES (%s, %s, %s, %s, %s)', (name, email, beskrivelse, cv.filename, user_id,))
             mysql.connection.commit()
             msg = 'Tillykke du har oprettet en profil'
             return render_template ('registrer.html', msg=msg)
@@ -185,6 +174,18 @@ def profile():
 
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
+
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    if request.method == "POST":
+        cursor = mysql.connection.cursor()
+        search_query = '%' + request.form['search'] + '%'
+        cursor.execute('SELECT * FROM users WHERE username LIKE %s', (search_query,))
+        records = cursor.fetchall()
+        cursor.close()
+        return render_template("result.html", records=records)
+    return render_template("search.html")
+
 
 
 if __name__ == '__main__':
