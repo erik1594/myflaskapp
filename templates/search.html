@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Søging</title>
+</head>
+<body>
+{% extends "layout.html" %}
+{% block content %}
+    <div class="search">
+    <form action="/search" method=post>
+        <input type=text name=search value="{{ request.form.search}}"></br>
+        <div class="actions"><input type=submit value="Search"></div>
+    </form>
+    </div>
+{% for message in get_flashed_messages() %}
+<div class=flash>
+    {{ message }}
+</div>
+{% endfor %}
+{% endblock %}
+</body>
+</html>

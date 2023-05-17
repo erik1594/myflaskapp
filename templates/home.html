@@ -3,38 +3,24 @@
 <head> 
     <meta charset="uft-8" />
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-       <title>Forside</title>
 </head>
 <body>
+    {% extends "layout.html" %}
+
+    {% block title %}
+    Forside
+    {% endblock %}
+    
+    {% block content %}
+    <p>Her kan du søge på virksomheder og ledige</p>
+    
     <div class="image-container">
         <div class="Home">
-        <img src="{{ user_image }}" width="600" height="450">
+            <img src="{{ user_image }}" width="600" height="450">
+        </div>
     </div>
-    
-{% block title %}
-
-<div class = "HomeContainer">
-    <div class="item"> <h5>Velkommen tilbage, {{ username }}!</h5></div>
-    <div class="item"> <p>Her kan du søge på virksomheder og ledige</p> </div>
-    <div class="item"> <label class="Søg">
-        <i class="fas fa-search"></i>
-    </label>
-    <input type="søg" placeholder="SØG" id="søg"> </div>
-</div>
-<div class="msg">{{ msg }}</div>
-<input type="submit" value="ændre profil">
-<!--
-{% block content %}
-<p>Her kan du søge på virksomheder og ledige</p>
-<h5>Velkommen tilbage, {{ username }}!</h5> <br>
-<label class="Søg">
-    <i class="fas fa-search"></i>
-</label>
-<input type="søg" type="user_id" placeholder="SØG" id="søg">
-
-{% endblock %}
--->
-{% endblock %}
+  
+    {% endblock %}
 
 </body>
 </html>

@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+    <style>
+        .result-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <style>
+        
+    </style>
+    
+    {% extends "layout.html" %}
+
+    {% block title %}
+    Search Results
+    {% endblock %}
+    
+    {% block content %}
+    <h1>Search Results</h1>
+    
+    {% if records %}
+        <table>
+            <tbody>
+                {% for record in records %}
+                <div class="result-box">
+                    <p>Username: {{ record[1] }}</p>
+                    <p>Email: {{ record[3] }}</p>
+                </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+    {% endblock %}
+</body>
+</html>

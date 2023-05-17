@@ -199,19 +199,14 @@ body.loggedin {
 }
 h1, h5{
     font-size: 32px;
-    color: #ffffff;
+    color: #000000;
 }
 
 p {
     font-size: 18px;
-    color: #ffffff;
+    color: #000000;
     line-height: 1.5;
     font-family: "verdana", sans-serif;
-}
-.image-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 .ledige{
     display: flex;

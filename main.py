@@ -1,12 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
+import MySQLdb
 import re
 import os
-from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-
 # Change this to your secret key (can be anything, it's for extra protection)
 app.secret_key = '1234'
 
@@ -25,6 +24,27 @@ cv_mappe= os.path.join('static', 'cv_mappe')
 app.config['UPLOAD_FOLDER'] = IMG_FOLDER
 app.config['UPLOAD_FOLDER2'] = cv_mappe
 ALLOWED_EXTENSIONS = {'pdf', 'doc', 'docx'}  # Tilladte filtyper
+
+
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    if request.method == "POST":
+        cursor = mysql.connection.cursor()
+        search_query = '%' + request.form['search'] + '%'
+        cursor.execute('SELECT * FROM users WHERE username LIKE %s', (search_query,))
+        records = cursor.fetchall()
+        cursor.close()
+        return render_template("result.html", records=records)
+    return render_template("search.html")
+
+            
+            
+    
+    
+
+
+
+
 
 @app.route('/', methods=['GET', 'POST'])
 def forside():
@@ -108,7 +128,7 @@ def registrer():
         
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM users WHERE username = %s', (username,))
+        cursor.execute('SELECT * FROM users WHERE username = %s', (username))
         account = cursor.fetchone()
         
     
@@ -146,7 +166,7 @@ def home():
         # User is loggedin show them the home page
         
         img = os.path.join(app.config['UPLOAD_FOLDER'], '1691809.jpg')
-        return render_template('home.html', username=session['username'], user_image = img)
+        return render_template('home.html', username=session['username'], user_image=img)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 
@@ -165,7 +185,6 @@ def profile():
 
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
-
 
 
 if __name__ == '__main__':
